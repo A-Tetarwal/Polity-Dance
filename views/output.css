@@ -679,3 +679,80 @@ video {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
+
+@keyframes bounceyy {
+  from {
+    transform: rotate(-6deg) translateY(-25%);
+    box-shadow: 0 0 30px rgba(255, 255, 238, 0.45)
+  }
+  to {
+    transform: rotate(6deg);
+  }
+}
+
+#politics {
+  animation: bounceyy 0.5s cubic-bezier(0.8, 0, 1, 1) infinite alternate;
+}
+
+@keyframes nav {
+  from{
+    box-shadow: 0 0 30px rgba(255, 255, 238, 0.45);
+  }
+  to{
+    box-shadow: none;
+  }
+}
+#home{
+  animation: nav 0.5s cubic-bezier(0.8, 0, 1, 1) infinite alternate ;
+}
+#sports{
+  animation: nav 0.5s cubic-bezier(0.8, 0, 1, 1) 0.25s infinite alternate ;
+}
+#entertainment{
+  animation: nav 0.5s cubic-bezier(0.8, 0, 1, 1) 0.5s infinite alternate ;
+}
+
+@keyframes politeyy {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+#polity{
+  animation: politeyy 0.2s cubic-bezier(0.8, 0, 1, 1) 1s 1 normal;
+}
+@keyframes dancey {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+#dance{
+  animation: dancey 0.2s cubic-bezier(0.8, 0, 1, 1) 1s 1 normal;
+}
+
+@keyframes dashey {
+  0%{
+    transform: rotate(0deg);
+  } 
+  25%{
+    transform: rotate(45deg);
+  }
+  50%{
+    transform: rotate(90deg);
+  } 
+  75%{
+    transform: rotate(135deg);
+  } 
+  100%{
+    transform: rotate(180deg);
+  }
+}
+#dash{
+  /* animation: dashey 0.5s cubic-bezier(0.8, 0, 1, 1) 1 normal; */
+  animation: dashey 0.2s ease-out 1s 1;
+}
