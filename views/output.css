@@ -680,6 +680,7 @@ video {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
+/* bouncy politics button */
 @keyframes bounceyy {
   from {
     transform: rotate(-6deg) translateY(-25%);
@@ -694,6 +695,8 @@ video {
   animation: bounceyy 0.5s cubic-bezier(0.8, 0, 1, 1) infinite alternate;
 }
 
+
+/* all other buttons */
 @keyframes nav {
   from{
     box-shadow: 0 0 30px rgba(255, 255, 238, 0.45);
@@ -712,6 +715,56 @@ video {
   animation: nav 0.5s cubic-bezier(0.8, 0, 1, 1) 0.5s infinite alternate ;
 }
 
+
+/* polity-dance pre animation */
+@keyframes politeyy1 {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+#polity{
+  animation: politeyy1 1s cubic-bezier(0.8, 0, 1, 1) 1 normal;
+}
+@keyframes dancey1 {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+#dance{
+  animation: dancey1 1s cubic-bezier(0.8, 0, 1, 1) 1 normal;
+}
+
+@keyframes dashey1 {
+  0%{
+    transform: rotate(180deg);
+  } 
+  25%{
+    transform: rotate(135deg);
+  }
+  50%{
+    transform: rotate(90deg);
+  } 
+  75%{
+    transform: rotate(45deg);
+  } 
+  100%{
+    transform: rotate(0deg);
+  }
+}
+#dash{
+  /* animation: dashey 0.5s cubic-bezier(0.8, 0, 1, 1) 1 normal; */
+  animation: dashey1 1s ease-out 1;
+}
+
+
+
+/* polity-dance post animation */
 @keyframes politeyy {
   0% {
     transform: translateX(-100%);
