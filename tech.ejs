@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polity Dance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes fadeInScale {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .fade-in-scale {
+            animation: fadeInScale 2s ease-in-out;
+        }
+
+        .peacockk {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .peacockk:hover {
+            transform: scale(1.02);
+        }
+
+        a.disabled {
+            pointer-events: none;
+            cursor: default;
+        }
+
+        .grid-masonry {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-rows: masonry;
+            gap: 1rem;
+        }
+
+        .grid-item img {
+            width: 100%;
+            border-radius: 0.5rem;
+        }
+        
+        * {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+        
+        /* Light Mode Styles */
+        .light-mode {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        /* Dark Mode Styles */
+        .dark-mode {
+            background-color: black;
+            color: #ffffff;
+        }
+
+        /* Navbar Light Mode */
+        .light-mode .navbar {
+            background-color: #ffffff;
+            color: #000000;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Navbar Dark Mode */
+        .dark-mode .navbar {
+            background-color: black;
+            color: #ffffff;
+            border-bottom: 1px solid rgb(130, 130, 130);
+        }
+
+        /* Grid Item Light Mode */
+        .light-mode .grid-item {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        /* Grid Item Dark Mode */
+        .dark-mode .grid-item {
+            background-color: black;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body class="dark-mode flex flex-col justify-center items-center">
+    <div class="navbar flex justify-between items-center w-screen py-2">
+        <a href="" class="text-3xl font-bold ml-4">Rhyme</a>
+        <nav class="flex gap-3">
+            <a href="/views/politics/home.html" class="px-3 py-2 text-lg font-semibold hover:underline disabled">Politics</a>
+            <a href="/views/sports/home.html" class="px-3 py-2 text-lg font-semibold hover:underline disabled">Sports</a>
+            <a href="/views/tech/home.html" class="px-3 py-2 text-lg font-semibold hover:underline">Tech</a>
+        </nav>
+        <button id="theme-toggle" class="mr-4 px-3 py-2 border rounded-full focus:outline-none">☀</button>
+    </div>
+
+    <div class="grid-masonry max-w-screen-lg p-4">
+        <div class="posts flex flex-col gap-4 w-full">
+
+        </div>
+    </div>
+
+    <a href="/register" target="_blank" class="fixed right-3 bottom-2 px-3 py-2 bg-gradient-to-r from-red-500 to-red-600">Write your article</a>
+
+    <a href="" class="text-zinc-500 hover:text-white fixed bottom-1">&copy; Fi-Web, 2024</a>
+
+    <script>
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+                themeToggleBtn.textContent = '☽';
+            } else {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+                themeToggleBtn.textContent = '☀';
+            }
+        });
+    </script>
+</body>
+</html>
