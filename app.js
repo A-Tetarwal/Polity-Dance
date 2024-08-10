@@ -16,10 +16,15 @@ const userModel = require(`./models/user.js`);
 const articleModel = require(`./models/article.js`);
 
 
-app.set('view engine', 'ejs');
+// app.set('view engine', 'ejs');
+// app.use(express.static(resolve(__dirname, 'public')));
+
+app.set("views", __dirname + "/views");
+app.set("view engine", "ejs");
+app.use(express.static(__dirname + "public"));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(resolve(__dirname, 'public')));
 app.use(cookieParser());
 
 // Cloudinary configuration
