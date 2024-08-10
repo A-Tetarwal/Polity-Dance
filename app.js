@@ -83,26 +83,69 @@ function isLoggedIn(req, res, next) {
 
 app.get('/p/:username', isLoggedIn, async (req, res) => {
     let username = req.params.username;
-    // Now you can use the username to find the user and their posts
-    let user = await userModel.findOne({ username: username }).populate("posts");
+    // Now you can use the username to find the user and their articles
+    let user = await userModel.findOne({ username: username }).populate("articles");
     res.render('profile', { user });
 })
 
-// app.get('/createpost', isLoggedIn, async (req, res) => {
-//     let user = await userModel.findOne({email: req.user.email}) // ye req.user.email ooper isLogedIn se aa rha hai
-//     res.render('createpost', {user}); // profile ejs pe humne user ko send kr diya hai
-// })
+app.get('/createarticle', isLoggedIn, async (req, res) => {
+    let user = await userModel.findOne({email: req.user.email}) // ye req.user.email ooper isLogedIn se aa rha hai
+    res.render('createarticle', {user}); // profile ejs pe humne user ko send kr diya hai
+})
 
-// app.post('/createpost', isLoggedIn, async (req, res) => {
+// app.post('/createarticle', isLoggedIn, async (req, res) => {
 //     let user = await userModel.findOne({email: req.user.email});
 
 //     let {content} = req.body;
-//     let post = await postModel.create({content, user: user._id});
+//     let article = await articleModel.create({content, user: user._id});
 
-//     await user.posts.push(post._id);
+//     await user.articles.push(article._id);
 //     await user.save();
 //     res.redirect(`/p/${user.username}`)
 // })
+
+const multer = require('multer');
+
+// Define storage for the images
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/images/articles/');
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname);
+    }
+});
+
+// File filter
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+};
+
+// Upload middleware
+const uploadd = multer({
+    storage: storage,
+    limits: {
+        fileSize: 1024 * 1024 * 5 // 5 MB limit
+    },
+    fileFilter: fileFilter
+});
+
+app.post('/createarticle', isLoggedIn, uploadd.single('articlePic'), async (req, res) => {
+    let user = await userModel.findOne({email: req.user.email});
+    let {content} = req.body;
+    let articlePic = req.file ? req.file.filename : null;
+
+    let article = await articleModel.create({content, user: user._id, articlePic});
+
+    user.articles.push(article._id);
+    await user.save();
+    res.redirect(`/p/${user.username}`);
+});
+
 
 app.get('/editprofile', isLoggedIn, async (req, res) => {
     let user = await userModel.findOne({email: req.user.email});
@@ -119,11 +162,11 @@ app.post('/editprofile', isLoggedIn, upload.single('image'), async (req, res) =>
     res.redirect(`/p/${user.username}`)
 })
 
-// app.get('/home', isLoggedIn, async (req, res) => {
-//     const user = await userModel.findOne({email: req.user.email})
-//     const posts = await postModel.find().sort({ date: -1 }).populate('user'); // Assuming you have an user field
-//     res.render('home', { posts, user });
-// });
+app.get('/home', isLoggedIn, async (req, res) => {
+    const user = await userModel.findOne({email: req.user.email})
+    const articles = await articleModel.find().sort({ date: -1 }).populate('user'); // Assuming you have an user field
+    res.render('tech', { articles, user });
+});
 
 
 app.listen(3000, () => console.log('server running on http://localhost:3000'));

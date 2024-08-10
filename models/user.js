@@ -13,10 +13,10 @@ const userSchema = mongoose.Schema({
         default: 'default.jpg'
     },
     about: String,
-    posts: [
+    articles: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'post'
+            ref: 'article'
         }
     ]
 })

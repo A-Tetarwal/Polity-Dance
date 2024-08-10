@@ -72,6 +72,28 @@
         <% } %>
         <a class="text-sm px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-600" href="/editprofile">Edit Profile</a>
     </div>
+
+    <a href="/createarticle" class="fixed right-20 top-3 text-sm bg-red-500 text-white px-3 py-2 rounded-full flex items-center">Add Article</p></a>
+
+    <div class="articles flex w-1/2 flex-wrap gap-3">
+        <% if(user.articles.length != 0){ %>
+            <% user.articles.reverse().forEach(post => { %> 
+                <div class="each-post w-72 p-4 bg-zinc-700 flex flex-col justify-between rounded-lg">
+                    <p class="text-sm tracking-tight mb-2"><%= post.content %></p>
+                    <div class="border-b border-zinc-700 my-2"></div>
+                    <div class="text-zinc-500 text-xs mb-2">
+                        <%= user.name %> . <%= post.date.toLocaleDateString() %>
+                    </div>
+                    <div class="options flex justify-between text-xs">
+                        <a href="" class="like text-blue-400 hover:underline">Like</a>
+                        <a href="" class="edit text-blue-400 hover:underline">Edit</a>
+                    </div>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <a href="/createarticle" class="bg-red-500 text-white px-3 py-2 rounded-full">Write Your First Article, <%= user.name %></a>
+        <% } %>
+    </div>
       
     <a href="" class="text-zinc-500 fixed bottom-1">&copy; Fi-4, 2024</a>
 

@@ -68,19 +68,22 @@
         <button id="theme-toggle" class="mr-4 px-3 py-2 border rounded-full focus:outline-none">☀</button>
     </div>
 
-    <form action="/editprofile" method="post" enctype="multipart/form-data">
-        <div class="flex flex-col gap-4 w-80 mx-auto mt-4 py-4 px-4 border border-zinc-900 rounded-lg peacock">
-            <h5 class="text-2xl font-semibold mb-4">Edit Profile</h5>
+    <form action="/createarticle" method="post" enctype="multipart/form-data" class="w-screen">
+        <div class="flex flex-col gap-4 mx-auto mt-4 py-4 px-4 border border-zinc-900 rounded-lg peacock">
+            <h5 class="text-2xl font-semibold mb-4 flex items-center gap-2">
+                <img src="/images/uploads/<%= user.profilepic ? user.profilepic : 'default.jpg' %>" alt="profile-image" class="object-cover w-10 h-10 rounded-full">
+                <p><%= user.name %>'s' Article</p>
+            </h5>
         
             <!-- Label for the image input -->
-            <div class="profilepic">
-                <label for="image" class="text-sm font-semibold text-white px-1">Profile Picture</label>
-                <input type="file" name="image" id="image" placeholder="Choose a profile picture" class="text-sm px-4 py-2 border border-zinc-800 rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-600">    
+            <div class="articlePic">
+                <label for="image" class="text-sm font-semibold text-white px-1">Cover Image</label>
+                <input type="file" name="articlePic" id="image" placeholder="Choose a profile picture" class="text-sm px-4 py-2 border border-zinc-800 rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-600">    
             </div>        
             <!-- Textarea for the about section -->
             <div class="about flex flex-col">
-                <label for="about" class="text-sm font-semibold text-white px-1">About You</label>
-                <textarea name="about" id="about" placeholder="About" class="resize-none text-sm px-4 py-2 border border-zinc-800 rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-600"><% if (user.about) { %><%= user.about %><% } %></textarea>
+                <label for="article" class="text-sm font-semibold text-white px-1">Article</label>
+                <textarea name="content" id="article" placeholder="About" class="resize-none text-sm px-4 py-2 border border-zinc-800 rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-600"></textarea>
             </div>        
             <button type="submit" class="bg-blue-500 w-full rounded px-4 py-2 text-sm font-semibold hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Submit</button>
         </div>
