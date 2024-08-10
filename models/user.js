@@ -29,5 +29,4 @@ const userSchema = mongoose.Schema({
     ]
 })
 
-console.log('mongodb connected');
 module.exports = mongoose.model('user', userSchema);
