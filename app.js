@@ -10,6 +10,8 @@ const { multerUploads, dataUri } = require('./configs/multer.js');
 const { multerUploadds, dataUUri } = require('./configs/multer2.js');
 const path = require('path');  // Add this line
 
+const serverless = require('serverless-http');
+
 const userModel = require(`./models/user.js`);
 const articleModel = require(`./models/article.js`);
 
@@ -183,3 +185,7 @@ app.get('/home', isLoggedIn, async (req, res) => {
 });
 
 app.listen(3000, () => console.log('Server running on http://localhost:3000'));
+
+// Export the app for Vercel
+module.exports = app;
+module.exports.handler = serverless(app);
