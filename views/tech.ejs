@@ -59,11 +59,13 @@
         <button id="theme-toggle" class="mr-4 px-3 py-2 border rounded-full focus:outline-none">☀</button>
     </div>
 
-    <div id="swup" class=" max-w-screen-lg p-4 transition-fade">
-        <div class="posts flex flex-col gap-4 w-full">
-            <div class="h-64 w-48 bg-zinc-900 rounded-lg"></div>
-            <h3 class="text-sm text-center font-bold">Summing Up the Summers</h3>
-        </div>
+    <div class="posts flex flex-col gap-4 w-full">
+        <% articles.forEach(post => { %>
+            <div class="post bg-zinc-700 p-4 rounded-lg">
+                <p class="text-sm"><%= post.content %></p>
+                <p class="text-xs text-zinc-400"><a href="/pAll/<%= post.user.username %>" class="text-blue-500"><%= post.user.name %></a> on <%= new Date(post.date).toLocaleString() %></p>
+            </div>
+        <% }); %>
     </div>
 
     <a href="/createarticle" target="_blank" class="fixed right-3 bottom-2 px-3 py-2 bg-gradient-to-r from-red-500 to-red-600">Write your article</a>

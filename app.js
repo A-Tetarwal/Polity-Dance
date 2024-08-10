@@ -1,172 +1,185 @@
 const express = require('express');
 const app = express();
-
-const userModel = require(`./models/user`);
-const articleModel = require(`./models/article`);
-
-const cookieParser = require('cookie-parser')
+const { urlencoded, json } = require('body-parser');
+const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const path = require('path');
-// multeconfig import kr rhe hain
-const upload = require('./configs/multerconfig.js');
+const { resolve } = require('path');
+const { config, uploader } = require('cloudinary').v2;
+const { multerUploads, dataUri } = require('./configs/multer.js');
+const { multerUploadds, dataUUri } = require('./configs/multer2.js');
+const path = require('path');  // Add this line
+
+const userModel = require(`./models/user.js`);
+const articleModel = require(`./models/article.js`);
+
 
 app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(resolve(__dirname, 'public')));
 app.use(cookieParser());
+
+// Cloudinary configuration
+config({
+    cloud_name: 'dy4izbbfp',
+    api_key: '247199398793383',
+    api_secret: 'CL4cfIr4Llvg3Wg8SSD4OhLlkbs'
+});
+
+// Serve the index.html for all routes not matched by specific routes
+// app.get('/*', (req, res) => res.sendFile(path.resolve(__dirname, '../public/index')));  // Now path is defined
 
 app.get('/', (req, res) => {
     res.render('index');
-})
+});
+
 app.get('/tech', (req, res) => {
     res.render('tech');
-})
+});
 
 app.get('/login', (req, res) => {
     res.render('login');
-})
+});
+
 app.get('/register', (req, res) => {
     res.render('register');
-})
+});
 
 app.post('/register', async (req, res) => {
     const { username, name, email, age, password } = req.body;
-    let user = await userModel.findOne({ email })
+    let user = await userModel.findOne({ email });
     if (user) return res.status(500).send('User already exists');
+    
     bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(password, salt, async (err, hash) => {
-            let user = await userModel.create({
-                username, name, email, age, password: hash
-            })
-            // jo bhi banaya hai uska email aur userid save krenge token bhejne ke liye
-            let token = jwt.sign({ email: email, userid: user._id }, 'securekey')
+            let user = await userModel.create({ username, name, email, age, password: hash });
+            let token = jwt.sign({ email: email, userid: user._id }, 'securekey');
             res.cookie("token", token);
-            // res.send('User registered');
-            res.redirect(`/p/${user.username}`)
-        })
-    })
-})
+            res.redirect(`/p/${user.username}`);
+        });
+    });
+});
 
 app.post('/login', async (req, res) => {
-    let {email, password} = req.body;
-    let user = await userModel.findOne({email});
-    if(!user) return res.status(500).send(`User doesn't exist`);
+    let { email, password } = req.body;
+    let user = await userModel.findOne({ email });
+    if (!user) return res.status(500).send(`User doesn't exist`);
 
     bcrypt.compare(password, user.password, (err, result) => {
-        if(result){
-            let token = jwt.sign({ email: email, userid: user._id }, 'securekey')
+        if (result) {
+            let token = jwt.sign({ email: email, userid: user._id }, 'securekey');
             res.cookie("token", token);
-            // res.status(200).send('you can login');
-            res.redirect(`/home`)
+            res.redirect(`/home`);
+        } else {
+            res.redirect('/login');
         }
-        else res.redirect('/login')
-    })
-})
+    });
+});
 
 app.get('/logout', (req, res) => {
     res.cookie('token', '');
-    res.redirect('login')
-})
+    res.redirect('/login');
+});
 
-// middleware for protected routes
+// Middleware for protected routes
 function isLoggedIn(req, res, next) {
-    // if(req.cookies.token === '') res.send('please login');
-    if(req.cookies.token === '') res.redirect('login');
-    else {
-        let data = jwt.verify(req.cookies.token, 'securekey')
+    if (!req.cookies.token) return res.render('login');
+    try {
+        let data = jwt.verify(req.cookies.token, 'securekey');
         req.user = data;
         next();
+    } catch (err) {
+        return res.render('login');
     }
 }
 
 app.get('/p/:username', isLoggedIn, async (req, res) => {
     let username = req.params.username;
-    // Now you can use the username to find the user and their articles
     let user = await userModel.findOne({ username: username }).populate("articles");
     res.render('profile', { user });
-})
+});
+
+app.get('/pAll/:username', async (req, res) => {
+    let username = req.params.username;
+    let user = await userModel.findOne({ username: username }).populate("articles");
+    res.render('profileAll', { user });
+});
 
 app.get('/createarticle', isLoggedIn, async (req, res) => {
-    let user = await userModel.findOne({email: req.user.email}) // ye req.user.email ooper isLogedIn se aa rha hai
-    res.render('createarticle', {user}); // profile ejs pe humne user ko send kr diya hai
-})
-
-// app.post('/createarticle', isLoggedIn, async (req, res) => {
-//     let user = await userModel.findOne({email: req.user.email});
-
-//     let {content} = req.body;
-//     let article = await articleModel.create({content, user: user._id});
-
-//     await user.articles.push(article._id);
-//     await user.save();
-//     res.redirect(`/p/${user.username}`)
-// })
-
-const multer = require('multer');
-
-// Define storage for the images
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'public/images/articles/');
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname);
-    }
+    let user = await userModel.findOne({ email: req.user.email });
+    res.render('createarticle', { user });
 });
 
-// File filter
-const fileFilter = (req, file, cb) => {
-    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-        cb(null, true);
+const streamifier = require('streamifier');
+const cloudinary = require('cloudinary').v2; // Ensure you have cloudinary set up
+
+app.post('/createarticle', isLoggedIn, multerUploadds, async (req, res) => {
+    let user = await userModel.findOne({ email: req.user.email });
+    let { title, content } = req.body;
+
+    console.log("Uploaded file: ", req.file); // Inspect the file object
+
+    if (req.file) {
+        const fileStream = streamifier.createReadStream(req.file.buffer); // Convert buffer to stream
+
+        try {
+            const result = await new Promise((resolve, reject) => {
+                cloudinary.uploader.upload_stream({ resource_type: 'auto' }, (error, result) => {
+                    if (error) return reject(error);
+                    resolve(result);
+                }).end(req.file.buffer); // End the stream with the file buffer
+            });
+
+            console.log("Upload result: ", result);
+
+            const articlePic = result.url;
+
+            let article = await articleModel.create({ title, content, user: user._id, articlePic });
+            user.articles.push(article._id);
+            await user.save();
+
+            res.redirect(`/p/${user.username}`);
+        } catch (err) {
+            console.error("Upload error: ", err);
+            return res.status(400).json({ message: 'Something went wrong while processing your request', data: { err } });
+        }
     } else {
-        cb(null, false);
+        res.status(400).json({ message: 'No file uploaded' });
     }
-};
-
-// Upload middleware
-const uploadd = multer({
-    storage: storage,
-    limits: {
-        fileSize: 1024 * 1024 * 5 // 5 MB limit
-    },
-    fileFilter: fileFilter
 });
 
-app.post('/createarticle', isLoggedIn, uploadd.single('articlePic'), async (req, res) => {
-    let user = await userModel.findOne({email: req.user.email});
-    let {content} = req.body;
-    let articlePic = req.file ? req.file.filename : null;
 
-    let article = await articleModel.create({content, user: user._id, articlePic});
 
-    user.articles.push(article._id);
+
+app.get('/editprofile', isLoggedIn, async (req, res) => {
+    let user = await userModel.findOne({ email: req.user.email });
+    res.render('editprofile', { user });
+});
+
+app.post('/editprofile', isLoggedIn, multerUploads, async (req, res) => {
+    let user = await userModel.findOne({ email: req.user.email });
+    user.about = req.body.about;
+    
+    if (req.file) {
+        const file = dataUri(req).content;
+        try {
+            const result = await uploader.upload(file);
+            const image = result.url;
+            user.profilepic = image;
+        } catch (err) {
+            return res.status(400).json({ message: 'Something went wrong while processing your request', data: { err } });
+        }
+    }
+
     await user.save();
     res.redirect(`/p/${user.username}`);
 });
 
-
-app.get('/editprofile', isLoggedIn, async (req, res) => {
-    let user = await userModel.findOne({email: req.user.email});
-    res.render('editprofile', {user})
-})
-
-app.post('/editprofile', isLoggedIn, upload.single('image'), async (req, res) => {
-    let user = await userModel.findOne({ email: req.user.email });
-    user.about = req.body.about; // update the user's about field
-    if(req.file){
-        user.profilepic = req.file.filename;
-    }
-    await user.save(); // save the changes
-    res.redirect(`/p/${user.username}`)
-})
-
 app.get('/home', isLoggedIn, async (req, res) => {
-    const user = await userModel.findOne({email: req.user.email})
-    const articles = await articleModel.find().sort({ date: -1 }).populate('user'); // Assuming you have an user field
+    const user = await userModel.findOne({ email: req.user.email });
+    const articles = await articleModel.find().sort({ date: -1 }).populate('user');
     res.render('tech', { articles, user });
 });
 
-
-app.listen(3000, () => console.log('server running on http://localhost:3000'));
+app.listen(3000, () => console.log('Server running on http://localhost:3000'));

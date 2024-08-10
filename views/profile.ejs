@@ -61,7 +61,7 @@
 
     <div class="profile flex items-center justify-evenly w-screen mx-auto p-6 rounded-md">
         <div class="imageName flex items-center gap-2">
-            <img src="/images/uploads/<%= user.profilepic ? user.profilepic : 'default.jpg' %>" alt="profile-image" class="object-cover w-10 h-10 rounded-full">
+            <img src="<%= user.profilepic ? user.profilepic : 'default.jpg' %>" alt="profile-image" class="object-cover w-10 h-10 rounded-full">
             <div class="name flex flex-col items-center">
                 <p class="font-bold"><%= user.name %></p>
                 <p class="text-zinc-500">@ <%= user.username %></p>
@@ -75,11 +75,23 @@
 
     <a href="/createarticle" class="fixed right-20 top-3 text-sm bg-red-500 text-white px-3 py-2 rounded-full flex items-center">Add Article</p></a>
 
-    <div class="articles flex w-1/2 flex-wrap gap-3">
+    <div class="articles flex w-1/2 flex-wrap gap-3 justify-center">
         <% if(user.articles.length != 0){ %>
             <% user.articles.reverse().forEach(post => { %> 
-                <div class="each-post w-72 p-4 bg-zinc-700 flex flex-col justify-between rounded-lg">
+                <div class="each-post w-72 p-4 bg-zinc-700 flex flex-col justify-between rounded-lg relative overflow-hidden group">
+                    <!-- Background Image Container -->
+                    <div class="absolute inset-0 w-full h-48 bg-cover bg-center transition-transform duration-300 group-hover:bg-blue-500" style="background-image: url('<%= post.articlePic %>');"></div>
+                    
+                    <!-- Title and Overlay -->
+                    <div class="relative z-10 h-full flex flex-col justify-center items-center text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <h2 class="text-white text-lg font-semibold"><%= post.title %></h2>
+                    </div>
+                    
+                    <!-- Content (currently not used) -->
+                    <!--
                     <p class="text-sm tracking-tight mb-2"><%= post.content %></p>
+                    -->
+                    
                     <div class="border-b border-zinc-700 my-2"></div>
                     <div class="text-zinc-500 text-xs mb-2">
                         <%= user.name %> . <%= post.date.toLocaleDateString() %>
@@ -89,6 +101,7 @@
                         <a href="" class="edit text-blue-400 hover:underline">Edit</a>
                     </div>
                 </div>
+                
             <% }); %>
         <% } else { %>
             <a href="/createarticle" class="bg-red-500 text-white px-3 py-2 rounded-full">Write Your First Article, <%= user.name %></a>
