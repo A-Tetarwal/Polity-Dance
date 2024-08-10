@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polity Dance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/swup@4"></script>
+    <script defer>
+        const swup = new Swup();
+    </script>
+    <link rel="stylesheet" href="/stylesheets/main.css">
+    <style>
+        a.disabled {
+            pointer-events: none;
+            cursor: default;
+        }
+        
+        * {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+        
+        /* Light Mode Styles */
+        .light-mode {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        /* Dark Mode Styles */
+        .dark-mode {
+            background-color: black;
+            color: #ffffff;
+        }
+
+        /* Navbar Light Mode */
+        .light-mode .navbar {
+            background-color: #ffffff;
+            color: #000000;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Navbar Dark Mode */
+        .dark-mode .navbar {
+            background-color: black;
+            color: #ffffff;
+            border-bottom: 1px solid rgb(130, 130, 130);
+        }
+        .peacock  {
+            box-shadow: 5px 2.5px 0px 2px #1a1a1a;
+        }
+        .light-mode .peacock{
+            box-shadow: 5px 5px 10px 3.5px #f0f0f0;
+            border: none;
+        }
+        .light-mode .bg-transparent{
+            border: 1px solid rgb(172, 172, 172);
+        }
+    </style>
+</head>
+<body class="dark-mode flex flex-col justify-center items-center">
+    <div class="navbar flex justify-between items-center w-screen py-2">
+        <a href="/" class="text-3xl font-bold ml-4">Polity-Dance</a>
+        <nav class="flex gap-3">
+            <a href="/views/politics/home.html" class="px-3 py-2 text-lg font-semibold hover:underline disabled">Politics</a>
+            <a href="/views/sports/home.html" class="px-3 py-2 text-lg font-semibold hover:underline disabled">Sports</a>
+            <a href="/tech" class="px-3 py-2 text-lg font-semibold hover:underline">Tech</a>
+        </nav>
+        <button id="theme-toggle" class="mr-4 px-3 py-2 border rounded-full focus:outline-none">☀</button>
+    </div>
+
+    <form action="/editprofile" method="post" enctype="multipart/form-data">
+        <div class="flex flex-col gap-4 w-80 mx-auto mt-4 py-4 px-4 border border-zinc-900 rounded-lg peacock">
+            <h5 class="text-2xl font-semibold mb-4">Edit Profile</h5>
+        
+            <!-- Label for the image input -->
+            <div class="profilepic">
+                <label for="image" class="text-sm font-semibold text-white px-1">Profile Picture</label>
+                <input type="file" name="image" id="image" placeholder="Choose a profile picture" class="text-sm px-4 py-2 border border-zinc-800 rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-600">    
+            </div>        
+            <!-- Textarea for the about section -->
+            <div class="about flex flex-col">
+                <label for="about" class="text-sm font-semibold text-white px-1">About You</label>
+                <textarea name="about" id="about" placeholder="About" class="resize-none text-sm px-4 py-2 border border-zinc-800 rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-600"><% if (user.about) { %><%= user.about %><% } %></textarea>
+            </div>        
+            <button type="submit" class="bg-blue-500 w-full rounded px-4 py-2 text-sm font-semibold hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Submit</button>
+        </div>
+    </form>
+
+    <a href="" class="text-zinc-500 fixed bottom-1">&copy; Fi-4, 2024</a>
+
+    <script>
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+                themeToggleBtn.textContent = '☽';
+            } else {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+                themeToggleBtn.textContent = '☀';
+            }
+        });
+    </script>
+</body>
+</html>

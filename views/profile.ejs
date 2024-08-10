@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polity Dance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/swup@4"></script>
+    <script defer>
+        const swup = new Swup();
+    </script>
+    <link rel="stylesheet" href="/stylesheets/main.css">
+    <style>
+        a.disabled {
+            pointer-events: none;
+            cursor: default;
+        }
+        
+        * {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+        
+        /* Light Mode Styles */
+        .light-mode {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        /* Dark Mode Styles */
+        .dark-mode {
+            background-color: black;
+            color: #ffffff;
+        }
+
+        /* Navbar Light Mode */
+        .light-mode .navbar {
+            background-color: #ffffff;
+            color: #000000;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Navbar Dark Mode */
+        .dark-mode .navbar {
+            background-color: black;
+            color: #ffffff;
+            border-bottom: 1px solid rgb(130, 130, 130);
+        }
+
+    </style>
+</head>
+<body class="dark-mode flex flex-col justify-center items-center">
+    <div class="navbar flex justify-between items-center w-screen py-2">
+        <a href="/" class="text-3xl font-bold ml-4">Polity-Dance</a>
+        <nav class="flex gap-3">
+            <a href="/views/politics/home.html" class="px-3 py-2 text-lg font-semibold hover:underline disabled">Politics</a>
+            <a href="/views/sports/home.html" class="px-3 py-2 text-lg font-semibold hover:underline disabled">Sports</a>
+            <a href="/tech" class="px-3 py-2 text-lg font-semibold hover:underline">Tech</a>
+        </nav>
+        <button id="theme-toggle" class="mr-4 px-3 py-2 border rounded-full focus:outline-none">☀</button>
+    </div>
+
+    <div class="profile flex items-center justify-evenly w-screen mx-auto p-6 rounded-md">
+        <div class="imageName flex items-center gap-2">
+            <img src="/images/uploads/<%= user.profilepic ? user.profilepic : 'default.jpg' %>" alt="profile-image" class="object-cover w-10 h-10 rounded-full">
+            <div class="name flex flex-col items-center">
+                <p class="font-bold"><%= user.name %></p>
+                <p class="text-zinc-500">@ <%= user.username %></p>
+            </div>
+        </div>
+        <% if(user.about) { %>
+            <p class="font-semibold"><%= user.about %></p>
+        <% } %>
+        <a class="text-sm px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-600" href="/editprofile">Edit Profile</a>
+    </div>
+      
+    <a href="" class="text-zinc-500 fixed bottom-1">&copy; Fi-4, 2024</a>
+
+    <script>
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+                themeToggleBtn.textContent = '☽';
+            } else {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+                themeToggleBtn.textContent = '☀';
+            }
+        });
+    </script>
+</body>
+</html>

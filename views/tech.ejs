@@ -15,18 +15,6 @@
             pointer-events: none;
             cursor: default;
         }
-
-        .grid-masonry {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            grid-template-rows: masonry;
-            gap: 1rem;
-        }
-
-        .grid-item img {
-            width: 100%;
-            border-radius: 0.5rem;
-        }
         
         * {
             font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -58,17 +46,6 @@
             border-bottom: 1px solid rgb(130, 130, 130);
         }
 
-        /* Grid Item Light Mode */
-        .light-mode .grid-item {
-            background-color: #ffffff;
-            color: #000000;
-        }
-
-        /* Grid Item Dark Mode */
-        .dark-mode .grid-item {
-            background-color: black;
-            color: #ffffff;
-        }
     </style>
 </head>
 <body class="dark-mode flex flex-col justify-center items-center">
@@ -82,7 +59,7 @@
         <button id="theme-toggle" class="mr-4 px-3 py-2 border rounded-full focus:outline-none">☀</button>
     </div>
 
-    <div id="swup" class="grid-masonry max-w-screen-lg p-4 transition-fade">
+    <div id="swup" class=" max-w-screen-lg p-4 transition-fade">
         <div class="posts flex flex-col gap-4 w-full">
             <div class="h-64 w-48 bg-zinc-900 rounded-lg"></div>
             <h3 class="text-sm text-center font-bold">Summing Up the Summers</h3>
@@ -91,7 +68,7 @@
 
     <a href="/register" target="_blank" class="fixed right-3 bottom-2 px-3 py-2 bg-gradient-to-r from-red-500 to-red-600">Write your article</a>
 
-    <a href="" class="text-zinc-500 hover:text-white fixed bottom-1">&copy; Fi-Web, 2024</a>
+    <a href="" class="text-zinc-500 hover:text-white fixed bottom-1">&copy; Fi-4, 2024</a>
 
     <script>
         const themeToggleBtn = document.getElementById('theme-toggle');
