@@ -6,11 +6,6 @@
     <title>Polity Dance</title>
     <link rel="icon" href= "https://res.cloudinary.com/dy4izbbfp/image/upload/v1723369188/logo_rnueal.png"/>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://unpkg.com/swup@4"></script>
-    <script defer>
-        const swup = new Swup();
-    </script>
-    <link rel="stylesheet" href="/stylesheets/main.css">
     <style>
         a.disabled {
             pointer-events: none;
@@ -178,7 +173,7 @@
 </head>
 <body class="dark-mode flex flex-col justify-center items-center">
     <div class="navbar flex justify-between items-center w-screen py-2">
-        <a href="" class="text-3xl font-bold ml-4 flex items-center gap-2">
+        <a href="/" class="text-3xl font-bold ml-4 flex items-center gap-2">
             <img src="https://res.cloudinary.com/dy4izbbfp/image/upload/v1723369188/logo_rnueal.png" alt="" class="w-10 h-10">
             Polity-Dance
         </a>
@@ -212,27 +207,12 @@
     </div>
 
 
-    <div class="articles flex w-1/2 flex-wrap gap-3 pt-10 border-t border-zinc-900">
+    <div class="articles grid-masonry max-w-screen-lg py-6 px-4">
         <% if(user.articles.length != 0){ %>
-            <% user.articles.reverse().forEach(post => { %> 
-                <a href="articles/<%= user.username %>/<%= post.title %>" class="each-post w-72 p-4 bg-zinc-700 flex flex-col justify-between rounded-lg relative overflow-hidden group pt-10">
-                    <!-- Background Image Container -->
-                    <div class="absolute inset-0 w-full h-48 bg-cover bg-center transition-transform duration-300 group-hover:bg-blue-500" style="background-image: url('<%= post.articlePic %>');"></div>
-                    
-                    <!-- Title and Overlay -->
-                    <div class="relative z-10 h-full flex flex-col justify-center items-center text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <h2 class="text-white text-lg font-semibold"><%= post.title %></h2>
-                    </div>
-                    
-                    <!-- Content (currently not used) -->
-                    <!--
-                    <p class="text-sm tracking-tight mb-2"><%= post.content %></p>
-                    -->
-                    
-                    <div class="border-b border-zinc-700 my-2"></div>
-                    <div class="text-zinc-500 text-xs mb-2">
-                        <%= user.name %> . <%= post.date.toLocaleDateString() %>
-                    </div>
+            <% user.articles.reverse().forEach(article => { %> 
+                <a href="articles/<%= article.title %>" class="grid-item peacockk border border-zinc-700 p-4">
+                    <img src="<%= article.articlePic %>" alt="<%= article.articlePic %>" class="rounded-lg">
+                    <h3 class="font-bold mt-2"><%= article.title %></h3>
                 </a>
                 
             <% }); %>
@@ -241,7 +221,7 @@
         <% } %>
     </div>
       
-    <a href="" class="text-zinc-500">&copy; Fi-4, 2024</a>
+    <a href="" class="text-zinc-500 bottom-2">&copy; Fi-4, 2024</a>
 
     <script>
         const themeToggleBtn = document.getElementById('theme-toggle');
