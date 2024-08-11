@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Polity Dance</title>
-    <link rel="icon" href= "https://res.cloudinary.com/dy4izbbfp/image/upload/v1723369188/logo_rnueal.png"/>
+    <link rel="icon" href="https://res.cloudinary.com/dy4izbbfp/image/upload/v1723369188/logo_rnueal.png"/>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/swup@4"></script>
     <script defer src="https://unpkg.com/masonry-layout@4"></script>
@@ -21,7 +21,32 @@
         * {
             font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         }
-        
+
+        /* Navbar Styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 1rem;
+            background-color: black;
+            color: white;
+        }
+
+        .navbar a {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+        }
+
+        .navbar button {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            background-color: #333;
+            color: white;
+        }
+
         /* Light Mode Styles */
         .light-mode {
             background-color: #ffffff;
@@ -79,11 +104,57 @@
             height: auto;
             object-fit: cover;
         }
-        .light-mode .article{
+
+        .light-mode .article {
             background-color: transparent;
         }
-        .btns{
+
+        .btns {
             scale: 0.7;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .navbar .navmore {
+                margin-top: 1rem;
+                display: flex;
+                gap: 0.5rem;
+            }
+
+            /* #theme-toggle {
+                position: fixed;
+                top: 10px;
+                right: 10px;
+            } */
+
+            .grid-masonry > a {
+                flex: 1 0 45%; /* Wider items for smaller screens */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                padding: 0.5rem;
+            }
+
+            .navbar a {
+                font-size: 0.875rem;
+                padding: 0.25rem 0.5rem;
+            }
+
+            .navbar button {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.875rem;
+            }
+
+            .grid-masonry > a {
+                flex: 1 0 100%; /* Full width items for very small screens */
+            }
         }
     </style>
 </head>
@@ -103,7 +174,7 @@
                 <div class="w-10 h-10 overflow-hidden rounded-full">
                     <img src="<%= user.profilepic %>" alt="<%= user.name %>" class="object-cover">
                 </div>
-                <h2 class="font-semibold text-sm"><%= user.name %></h2>
+                <h2 class="font-semibold"><%= user.username %></h2>
             </a>
             <button id="theme-toggle" class="mr-4 px-3 py-2 border rounded-full focus:outline-none">☀</button>
         </div>

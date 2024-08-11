@@ -16,11 +16,36 @@
             pointer-events: none;
             cursor: default;
         }
-        
+
         * {
             font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         }
-        
+
+        /* Navbar Styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 1rem;
+            background-color: black;
+            color: white;
+        }
+
+        .navbar a {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+        }
+
+        .navbar button {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            background-color: #333;
+            color: white;
+        }
+
         /* Light Mode Styles */
         .light-mode {
             background-color: #ffffff;
@@ -47,6 +72,108 @@
             border-bottom: 1px solid rgb(130, 130, 130);
         }
 
+        .peacockk {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            border: 1px solid #505050;
+            background-color: #1c1c1c;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .peacockk:hover {
+            transform: scale(1.01);
+            box-shadow: 2.5px 2.5px 0px 0px #505050;
+        }
+
+        /* Masonry Grid Layout */
+        .grid-masonry {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .grid-masonry > a {
+            flex: 1 0 21%; /* Adjust based on desired item width */
+            box-sizing: border-box;
+        }
+
+        .grid-masonry img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .light-mode .article {
+            background-color: transparent;
+        }
+
+        .btns {
+            scale: 0.7;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .navbar .navmore {
+                margin-top: 1rem;
+                display: flex;
+                gap: 0.5rem;
+            }
+
+            /* #theme-toggle {
+                position: fixed;
+                top: 10px;
+                right: 10px;
+            } */
+
+            .profilemore{
+                display: flex;
+                flex-direction: row;
+            }
+            .profile{
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .grid-masonry > a {
+                flex: 1 0 45%; /* Wider items for smaller screens */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                padding: 0.5rem;
+            }
+
+            .navbar a {
+                font-size: 0.875rem;
+                padding: 0.25rem 0.5rem;
+            }
+
+            .navbar button {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.875rem;
+            }
+
+            .profilemore{
+                display: flex;
+                flex-direction: row;
+            }
+            .profile{
+                display: flex;
+                flex-direction: column;
+            }
+
+            .grid-masonry > a {
+                flex: 1 0 100%; /* Full width items for very small screens */
+            }
+        }
     </style>
 </head>
 <body class="dark-mode flex flex-col justify-center items-center">
@@ -61,24 +188,26 @@
             <a href="/tech" class="px-3 py-2 text-lg font-semibold hover:underline">Tech</a>
         </nav>
         <div class="flex items-center gap-2">
-            <a href="/login" class="text-sm bg-red-500 text-white px-3 py-2 rounded-full flex items-center">Write your article</p></a>
+            <a href="/createarticle" class="text-sm bg-red-500 text-white px-3 py-2 rounded-full flex items-center">Write Your Article</p></a>
             <button id="theme-toggle" class="mr-4 px-3 py-2 border rounded-full focus:outline-none">☀</button>
         </div>
     </div>
 
     <div class="profile flex items-center justify-evenly w-screen mx-auto p-6 rounded-md">
-        <div class="imageName flex items-center gap-2">
-            <img src="<%= user.profilepic ? user.profilepic : 'default.jpg' %>" alt="profile-image" class="object-cover w-12 h-12 rounded-full">
-            <div class="name flex flex-col items-center">
-                <p class="font-bold"><%= user.name %></p>
-                <p class="text-zinc-500">@ <%= user.username %></p>
+        <div class="profilemore flex gap-10">
+            <div class="imageName flex items-center gap-2">
+                <img src="<%= user.profilepic ? user.profilepic : 'default.jpg' %>" alt="profile-image" class="object-cover w-12 h-12 rounded-full">
+                <div class="name flex flex-col items-center">
+                    <p class="font-bold"><%= user.name %></p>
+                    <p class="text-zinc-500">@ <%= user.username %></p>
+                </div>
             </div>
+            <% if(user.about) { %>
+                <div class="w-48">
+                    <p class="font-semibold tracking-tight text-sm text-zinc-500"><%= user.about %></p>
+                </div>
+            <% } %>
         </div>
-        <% if(user.about) { %>
-            <div class="w-48">
-                <p class="font-semibold tracking-tight text-sm text-zinc-500"><%= user.about %></p>
-            </div>
-        <% } %>
     </div>
 
 
@@ -107,7 +236,7 @@
                 
             <% }); %>
         <% } else { %>
-            <a href="/createarticle" class="bg-red-500 text-white px-3 py-2 rounded-full">Write Your First Article, <%= user.name %></a>
+            <p>No articles yet</p>
         <% } %>
     </div>
       

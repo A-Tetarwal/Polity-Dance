@@ -20,6 +20,31 @@
         * {
             font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         }
+
+        /* Navbar Styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 1rem;
+            background-color: black;
+            color: white;
+        }
+
+        .navbar a {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+        }
+
+        .navbar button {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            background-color: #333;
+            color: white;
+        }
         
         /* Light Mode Styles */
         .light-mode {
@@ -55,6 +80,27 @@
         }
         .light-mode .bg-transparent{
             border: 1px solid rgb(172, 172, 172);
+        }
+
+        /* Responsive Navbar */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .navbar .navmore {
+                margin-top: 1rem;
+                display: flex;
+                /* flex-direction: column; */
+                gap: 0.5rem;
+            }
+
+            #theme-toggle{
+                position: fixed;
+                top: 10px;
+                right: 10px;
+            }
         }
     </style>
 </head>
