@@ -6,6 +6,7 @@
     <title>Polity Dance</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/swup@4"></script>
+    <script defer src="https://unpkg.com/masonry-layout@4"></script>
     <script defer>
         const swup = new Swup();
     </script>
@@ -17,16 +18,26 @@
         }
 
         .grid-masonry {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            grid-template-rows: masonry;
+            display: flex;
+            flex-wrap: wrap;
             gap: 1rem;
+            width: 100%;
+        }
+
+        .grid-item {
+            flex: 1 0 21%; /* Adjust based on desired item width */
+            box-sizing: border-box;
+            background-color: #1c1c1c; /* Default dark mode background */
+            border-radius: 0.5rem;
         }
 
         .grid-item img {
             border-radius: 0.5rem;
+            width: 100%;
+            height: auto;
+            object-fit: cover;
         }
-        
+
         * {
             font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         }
@@ -54,7 +65,6 @@
         .dark-mode .navbar {
             background-color: black;
             color: #ffffff;
-            /* border-bottom: 1px solid #505050; */
             box-shadow: 0 2px 2px 0.5px #232323;
         }
 
@@ -69,14 +79,18 @@
             background-color: black;
             color: #ffffff;
         }
+
         .peacockk {
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
             border: 1px solid #505050;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow: hidden;
         }
 
         .peacockk:hover {
             transform: scale(1.01);
-            box-shadow:2.5px 2.5px 0px 0px #505050;
+            box-shadow: 2.5px 2.5px 0px 0px #505050;
         }
     </style>
 </head>
@@ -91,15 +105,14 @@
         <button id="theme-toggle" class="mr-4 px-3 py-2 border rounded-full focus:outline-none">☀</button>
     </div>
 
-    <div class="grid-masonry max-w-screen-lg py-6 px-4 flex items-center">
+    <div class="grid-masonry max-w-screen-lg py-6 px-4">
         <% articles.forEach(article => { %>
-            <a href="articles/<%= article.user.username %>/<%= article.title %>" class="flex flex-col items-center justify-center gap-2 peacockk rounded-lg p-4 bg-zinc-900">
-                <img src="<%= article.articlePic %>" alt="<%= article.articlePic %>" class="rounded-lg">
-                <h3 class="font-bold"><%= article.title %></h3>
+            <a href="articles/<%= article.user.username %>/<%= article.title %>" class="grid-item peacockk">
+                <img src="<%= article.articlePic %>" alt="<%= article.articlePic %>">
+                <h3 class="font-bold mt-2"><%= article.title %></h3>
             </a>
         <% }); %>
     </div>
-   
 
     <a href="/login" target="_blank" class="text-white fixed right-3 bottom-2 px-3 py-2 bg-gradient-to-r from-red-500 to-red-600">Write your article</a>
 
@@ -119,6 +132,15 @@
                 body.classList.add('dark-mode');
                 themeToggleBtn.textContent = '☀';
             }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const grid = document.querySelector('.grid-masonry');
+            new Masonry(grid, {
+                itemSelector: '.grid-item',
+                columnWidth: '.grid-item',
+                percentPosition: true
+            });
         });
     </script>
 </body>

@@ -46,6 +46,18 @@
             border-bottom: 1px solid rgb(130, 130, 130);
         }
 
+        .peacock {
+            box-shadow: 5px 2.5px 0px 2px #1a1a1a;
+        }
+
+        .light-mode .peacock {
+            box-shadow: 5px 5px 10px 3.5px #f0f0f0;
+            border: none;
+        }
+
+        .light-mode .bg-transparent {
+            border: 1px solid rgb(172, 172, 172);
+        }
     </style>
 </head>
 <body class="dark-mode flex flex-col justify-center items-center">
@@ -60,12 +72,12 @@
     </div>
 
     <form action="/login" method="post">
-        <div class="flex flex-col gap-4 w-80 mx-auto mt-4 py-4 px-4 border border-zinc-800 rounded-lg">
-          <h1 class="text-center text-2xl font-bold">Login</h1>
-          <input type="email" name="email" placeholder="Email" class="text-black px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600">
-          <input type="password" name="password" placeholder="Password" class="text-black px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600">
-          <button class="text-black px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-600">Login</button>
-          <p class="text-center">No account? <a href="/register" class="text-blue-500">Join</a></p>
+        <div class="flex flex-col gap-4 w-80 mx-auto mt-4 py-4 px-4 border border-zinc-800 rounded-lg peacock">
+            <h1 class="text-center text-2xl font-bold">Login</h1>
+            <input type="email" name="email" placeholder="Email" class="text-sm px-4 py-2 border border-zinc-800 rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-600">
+            <input type="password" name="password" placeholder="Password" class="text-sm px-4 py-2 border border-zinc-800 rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-600">
+            <button class="text-black px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-600">Login</button>
+            <p class="text-center">No account? <a href="/register" class="text-blue-500">Join</a></p>
         </div>
     </form>
 

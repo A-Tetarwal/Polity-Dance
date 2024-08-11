@@ -6,6 +6,7 @@
     <title>Polity Dance</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/swup@4"></script>
+    <script defer src="https://unpkg.com/masonry-layout@4"></script>
     <script defer>
         const swup = new Swup();
     </script>
@@ -15,7 +16,7 @@
             pointer-events: none;
             cursor: default;
         }
-        
+
         * {
             font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         }
@@ -49,11 +50,39 @@
         .peacockk {
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
             border: 1px solid #505050;
+            background-color: #1c1c1c;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow: hidden;
         }
 
         .peacockk:hover {
             transform: scale(1.01);
-            box-shadow:2.5px 2.5px 0px 0px #505050;
+            box-shadow: 2.5px 2.5px 0px 0px #505050;
+        }
+
+        /* Masonry Grid Layout */
+        .grid-masonry {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .grid-masonry > a {
+            flex: 1 0 21%; /* Adjust based on desired item width */
+            box-sizing: border-box;
+        }
+
+        .grid-masonry img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+        .light-mode .article{
+            background-color: transparent;
+        }
+        .btns{
+            scale: 0.7;
         }
     </style>
 </head>
@@ -66,28 +95,28 @@
             <a href="/tech" class="px-3 py-2 text-lg font-semibold hover:underline">Tech</a>
         </nav>
         <div class="btns flex items-center gap-4">
-            <a href="/p/<%= user.username %>" class="flex items-center gap-2">
-                <div class="w-10 h-10 overflow-hidden rounded-full border-2">
+            <a href="/p/<%= user.username %>" class="flex items-center gap-2 border rounded-full px-3 py-2 border-zinc-900 bg-zinc-900 article">
+                <div class="w-10 h-10 overflow-hidden rounded-full">
                     <img src="<%= user.profilepic %>" alt="<%= user.name %>" class="object-cover">
                 </div>
-                <h2 class="font-semibold"><%= user.name %></h2>
+                <h2 class="font-semibold text-sm"><%= user.name %></h2>
             </a>
             <button id="theme-toggle" class="mr-4 px-3 py-2 border rounded-full focus:outline-none">☀</button>
         </div>
     </div>
 
-    <div class="grid-masonry max-w-screen-lg py-6 px-4 flex items-center gap-3">
+    <div class="grid-masonry max-w-screen-lg py-6 px-4">
         <% articles.forEach(article => { %>
-            <a href="articles/<%= article.user.username %>/<%= article.title %>" class="flex flex-col items-center justify-center gap-2 peacockk rounded-lg p-4 bg-zinc-900">
+            <a href="articles/<%= article.user.username %>/<%= article.title %>" class="peacockk article">
                 <img src="<%= article.articlePic %>" alt="<%= article.articlePic %>" class="rounded-lg">
-                <h3 class="font-bold"><%= article.title %></h3>
+                <h3 class="font-bold mt-2"><%= article.title %></h3>
             </a>
         <% }); %>
     </div>
 
-    <a href="/createarticle" target="_blank" class="fixed right-3 bottom-2 px-3 py-2 bg-gradient-to-r from-red-500 to-red-600">Write your article</a>
+    <a href="/createarticle" target="_blank" class="fixed right-3 bottom-2 px-3 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white">Write your article</a>
 
-    <a href="" class="text-zinc-500 hover:text-white fixed bottom-1">&copy; Fi-4, 2024</a>
+    <a href="" class="text-zinc-500">&copy; Fi-4, 2024</a>
 
     <script>
         const themeToggleBtn = document.getElementById('theme-toggle');
@@ -103,6 +132,15 @@
                 body.classList.add('dark-mode');
                 themeToggleBtn.textContent = '☀';
             }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const grid = document.querySelector('.grid-masonry');
+            new Masonry(grid, {
+                itemSelector: '.peacockk',
+                columnWidth: '.peacockk',
+                percentPosition: true
+            });
         });
     </script>
 </body>

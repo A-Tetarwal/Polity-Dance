@@ -25,6 +25,7 @@
 
         .grid-item img {
             border-radius: 0.5rem;
+            width: 100%; /* Ensure images fit within the grid item */
         }
         
         * {
@@ -54,7 +55,6 @@
         .dark-mode .navbar {
             background-color: black;
             color: #ffffff;
-            /* border-bottom: 1px solid #505050; */
             box-shadow: 0 2px 2px 0.5px #232323;
         }
 
@@ -69,6 +69,7 @@
             background-color: black;
             color: #ffffff;
         }
+
         .peacockk {
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
             border: 1px solid #505050;
@@ -76,7 +77,7 @@
 
         .peacockk:hover {
             transform: scale(1.01);
-            box-shadow:2.5px 2.5px 0px 0px #505050;
+            box-shadow: 2.5px 2.5px 0px 0px #505050;
         }
     </style>
 </head>
@@ -91,10 +92,10 @@
         <button id="theme-toggle" class="mr-4 px-3 py-2 border rounded-full focus:outline-none">☀</button>
     </div>
    
-    <div class="my-4 py-4 px-4 flex flex-col items-center gap-4">
-        <h3 class="font-bold text-4xl"><%= article.title %></h3>
-        <img src="<%= article.articlePic %>" alt="<%= article.title %>" class="w-96">
-        <p class="tracking-tight border-t border-zinc-900 py-4 w-96"><%= article.content %></p>
+    <div class="my-4 py-4 px-4 max-w-screen-md w-full flex flex-col items-center gap-4">
+        <h3 class="font-bold text-4xl text-center"><%= article.title %></h3>
+        <img src="<%= article.articlePic %>" alt="<%= article.title %>" class="w-full max-w-xl object-cover rounded-lg">
+        <p class="tracking-tight border-t border-zinc-900 py-4 w-full max-w-xl"><%- article.content %></p>
     </div>
 
     <a href="/login" target="_blank" class="text-white fixed right-3 bottom-2 px-3 py-2 bg-gradient-to-r from-red-500 to-red-600">Write your article</a>
