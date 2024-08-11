@@ -190,35 +190,25 @@ app.get('/home', isLoggedIn, async (req, res) => {
     res.render('tech', { articles, user });
 });
 
-app.get('/articles/:username/:title', async (req, res) => {
-    let username = req.params.username;
+app.get('/articles/:title', async (req, res) => {
     let title = req.params.title;
 
     try {
-        // Find the user by email
-        const user = await userModel.findOne({ username: username });
-
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        // Find the article by title associated with the user
-        const article = await articleModel.findOne({ title: title, user: user._id });
+        // Find the article by title and populate the user field
+        const article = await articleModel.findOne({ title: title }).populate('user');
 
         if (!article) {
             return res.status(404).json({ message: 'Article not found' });
         }
 
-        // If the article is found, render it or send it as JSON
-        res.render('article', { article, user }); // Assuming you have an 'articleDetail' view to render the article
-        // Or if you want to return JSON data
-        // res.json({ article });
-
+        // If the article is found, render it with the user data
+        res.render('article', { article });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Server error', error: err.message });
     }
 });
+
 
 app.get('/p/articles/:username/:title', async (req, res) => {
     let username = req.params.username;

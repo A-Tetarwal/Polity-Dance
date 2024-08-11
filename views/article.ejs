@@ -94,6 +94,7 @@
    
     <div class="my-4 py-4 px-4 max-w-screen-md w-full flex flex-col items-center gap-4">
         <h3 class="font-bold text-4xl text-center"><%= article.title %></h3>
+        <h2 class="text-zinc-500">-<%= article.user.name %></h2>
         <img src="<%= article.articlePic %>" alt="<%= article.title %>" class="w-full max-w-xl object-cover rounded-lg">
         <p class="tracking-tight border-t border-zinc-900 py-4 w-full max-w-xl"><%- article.content %></p>
     </div>
