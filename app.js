@@ -210,7 +210,7 @@ app.get('/articles/:title', async (req, res) => {
 });
 
 
-app.get('/p/articles/:username/:title', async (req, res) => {
+app.get('/pAll/articles/:username/:title', async (req, res) => {
     let username = req.params.username;
     let title = req.params.title;
 
