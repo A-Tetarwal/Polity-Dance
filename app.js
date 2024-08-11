@@ -37,12 +37,15 @@ config({
 // Serve the index.html for all routes not matched by specific routes
 // app.get('/*', (req, res) => res.sendFile(path.resolve(__dirname, '../public/index')));  // Now path is defined
 
-app.get('/', (req, res) => {
-    res.render('index');
+app.get('/', async (req, res) => {
+    const articles = await articleModel.find().sort({ date: -1 }).populate('user'); // Assuming you have an user field
+    res.render('index', {articles});
 });
 
-app.get('/tech', (req, res) => {
-    res.render('tech');
+app.get('/tech', isLoggedIn, async (req, res) => {
+    let user = await userModel.findOne({ email: req.user.email });
+    const articles = await articleModel.find().sort({ date: -1 }).populate('user'); // Assuming you have an user field
+    res.render('tech', {articles, user});
 });
 
 app.get('/login', (req, res) => {
@@ -157,8 +160,6 @@ app.post('/createarticle', isLoggedIn, multerUploadds, async (req, res) => {
 });
 
 
-
-
 app.get('/editprofile', isLoggedIn, async (req, res) => {
     let user = await userModel.findOne({ email: req.user.email });
     res.render('editprofile', { user });
@@ -188,6 +189,67 @@ app.get('/home', isLoggedIn, async (req, res) => {
     const articles = await articleModel.find().sort({ date: -1 }).populate('user');
     res.render('tech', { articles, user });
 });
+
+app.get('/articles/:username/:title', async (req, res) => {
+    let username = req.params.username;
+    let title = req.params.title;
+
+    try {
+        // Find the user by email
+        const user = await userModel.findOne({ username: username });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Find the article by title associated with the user
+        const article = await articleModel.findOne({ title: title, user: user._id });
+
+        if (!article) {
+            return res.status(404).json({ message: 'Article not found' });
+        }
+
+        // If the article is found, render it or send it as JSON
+        res.render('article', { article, user }); // Assuming you have an 'articleDetail' view to render the article
+        // Or if you want to return JSON data
+        // res.json({ article });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error', error: err.message });
+    }
+});
+
+app.get('/p/articles/:username/:title', async (req, res) => {
+    let username = req.params.username;
+    let title = req.params.title;
+
+    try {
+        // Find the user by email
+        const user = await userModel.findOne({ username: username });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Find the article by title associated with the user
+        const article = await articleModel.findOne({ title: title, user: user._id });
+
+        if (!article) {
+            return res.status(404).json({ message: 'Article not found' });
+        }
+
+        // If the article is found, render it or send it as JSON
+        res.render('article', { article, user }); // Assuming you have an 'articleDetail' view to render the article
+        // Or if you want to return JSON data
+        // res.json({ article });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error', error: err.message });
+    }
+});
+
 
 app.listen(3000, () => console.log('Server running on http://localhost:3000'));
 

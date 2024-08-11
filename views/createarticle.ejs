@@ -71,7 +71,7 @@
     <form action="/createarticle" method="post" enctype="multipart/form-data" class="w-screen">
         <div class="flex flex-col gap-4 mx-auto mt-4 py-4 px-4 border border-zinc-900 rounded-lg peacock">
             <h5 class="text-2xl font-semibold mb-4 flex items-center gap-2">
-                <img src="/images/uploads/<%= user.profilepic ? user.profilepic : 'default.jpg' %>" alt="profile-image" class="object-cover w-10 h-10 rounded-full">
+                <img src="<%= user.profilepic ? user.profilepic : '/images/uploads/default.jpg' %>" alt="profile-image" class="object-cover w-10 h-10 rounded-full">
                 <p><%= user.name %>'s' Article</p>
             </h5>
         
