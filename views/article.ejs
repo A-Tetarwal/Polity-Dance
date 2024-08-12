@@ -121,6 +121,7 @@
         <a href="/pAll/<%= article.user.username %>"><h2 class="text-zinc-500 hover:underline">-<%= article.user.name %></h2></a>
         <img src="<%= article.articlePic %>" alt="<%= article.title %>" class="w-full max-w-xl object-cover rounded-lg">
         <p class="tracking-tight border-t border-zinc-900 py-4 w-full max-w-xl"><%- article.content %></p>
+        <p class="text-zinc-500">Added on: <%= article._id.getTimestamp().toLocaleDateString('en-GB') %></p>
     </div>
 
     <a href="/login" target="_blank" class="text-white fixed right-3 bottom-2 px-3 py-2 bg-gradient-to-r from-red-500 to-red-600">Write your article</a>
