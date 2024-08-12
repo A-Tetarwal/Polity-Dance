@@ -208,7 +208,7 @@
 
     <div class="grid-masonry max-w-screen-lg py-6 px-4">
         <% user.articles.forEach(article => { %>
-            <a href="articles/<%= user.username %>/<%= article.title %>" class="grid-item peacockk border border-zinc-700 p-4">
+            <a href="/articles/<%= user.username %>/<%= article.title %>" class="grid-item peacockk border border-zinc-700 p-4">
                 <img src="<%= article.articlePic %>" alt="<%= article.articlePic %>">
                 <h3 class="font-bold mt-2"><%= article.title %></h3>
             </a>
