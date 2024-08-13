@@ -16,6 +16,10 @@
             font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         }
 
+        .light-mode .profile{
+            background-color: #ebebeb;
+        }
+
         /* Navbar Styles */
         .navbar {
             display: flex;
@@ -192,7 +196,7 @@
         </div>
     </div>
 
-    <div class="profile flex items-center justify-evenly w-screen mx-auto p-6 rounded-md">
+    <div class="profile flex items-center justify-evenly w-full mx-auto p-6 bg-zinc-800 mb-10">
         <div class="profilemore flex gap-10">
             <div class="imageName flex items-center gap-2">
                 <img src="<%= user.profilepic ? user.profilepic : 'default.jpg' %>" alt="profile-image" class="object-cover w-12 h-12 rounded-full">
