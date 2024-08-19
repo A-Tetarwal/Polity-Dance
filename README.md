@@ -73,6 +73,9 @@ Polity-Dance is a web-based platform for creating and sharing articles. Users ca
 - **Code Style:** Follow the existing code style for consistency.
 - **Contributions:** Feel free to open issues or submit pull requests with improvements.
 
+<a href="https://github.com/A-Tetarwal/Polity-Dance/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=A-Tetarwal/Polity-Dance" />
+</a>
 
 ## Contact
 
